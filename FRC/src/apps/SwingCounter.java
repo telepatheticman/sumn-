@@ -159,30 +159,11 @@ public class SwingCounter extends JFrame{
 		      
 		      
 		      
-		      btnUncount.addActionListener(new ActionListener() {
-		    	  @Override
-		    	  public void actionPerformed(ActionEvent e){
-		    		  --count;
-		    		  tfCount.setText(count + "");
-		    		  
-		    	  }
-		      });
+		     
 		 
 		      // Allocate an anonymous instance of an anonymous inner class that
 		      //  implements ActionListener as ActionEvent listener
-		      btnCount.addActionListener(new ActionListener() {
-		         @Override
-		         public void actionPerformed(ActionEvent e) {
-		            ++count;
-		            tfCount.setText(count + "");
-		            if (count == 30 ){
-				    	  name = "Slow down there pal";
-				      }
-				      else{
-				    	  name = "Counter";
-				      }
-		         }
-		      });
+		      
 		      
 		      tfCount.addActionListener(new ActionListener(){
 		    	   public void actionPerformed(ActionEvent e){
