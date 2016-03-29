@@ -10,31 +10,51 @@ import java.nio.file.Paths;
 import javax.swing.*;
 
 public class GUI extends JFrame {
-	private static String path = "C:\\Dev\\Configuration.java";
+	private static String path = "C:\\Users\\lbeal3008\\Desktop\\test.txt";
 	// private static String path = "";
 	private JTextField Conf;
 	private static String[] var;
 	private static String[] val;
 	private static int length;
 	private JTextField[] textField;
+	
+	public static void rewrite(String[] m, String[] y){
+		   Path file = Paths.get(path);
+
+			  if(Files.exists(file) && Files.isWritable(file)) {
+				  
+			      try {
+			          // File writer
+			          BufferedWriter Writer = Files.newBufferedWriter(file, Charset.defaultCharset());
+			          Writer.write("package org.usfirst.frc.team5572.robot;");
+			          Writer.newLine();
+			          Writer.write("public class Configuration {");
+			          Writer.newLine();
+			         for (int l = 0; l < length; l++){
+			          Writer.write("    public static void " + m[l] + " = " + y[l] +";");
+			          Writer.newLine();
+			         }
+			         Writer.write("}");
+			          Writer.close();
+			      } catch (Exception e) {
+			          e.printStackTrace();
+			      }
+			  }
+	}
 
 	public static void getLength() {
 		Path file = Paths.get(path);
 
 		if (Files.exists(file) && Files.isReadable(file)) {
-			System.out.println("yo");
 
 			try {
 				BufferedReader reader = Files.newBufferedReader(file, Charset.defaultCharset());
-				String pub = "public sta";
 				String line;
 				String sub;
 				length = 0;
 				while ((line = reader.readLine()) != null) {
 					{
-						System.out.println("sup");
 						if (!line.isEmpty() && line.length() > 8 && (line.indexOf("public sta")) > -1) {
-							System.out.println("hi");
 							length++;
 						}
 					}
@@ -48,46 +68,24 @@ public class GUI extends JFrame {
 	}
 
 	public static void varArray() {
-		var = new String[length];
 		Path file = Paths.get(path);
+		var = new String[length+1];
+		
+		val = new String[length+1];
+	
 
 		if (Files.exists(file) && Files.isReadable(file)) {
 
 			try {
 				BufferedReader reader = Files.newBufferedReader(file, Charset.defaultCharset());
-				String pub = "public sta";
+			
 				String line;
 				String sub;
 				int q = 0;
 				while ((line = reader.readLine()) != null) {
-					if (!line.isEmpty() && line.length() > 8 && (line.substring(0, 9)).equals(pub)) {
+					if (!line.isEmpty() && line.length() > 8 && (line.indexOf("public sta")) > -1) {
 						sub = StringU.var(line);
 						var[q] = sub;
-						q++;
-					}
-				}
-				reader.close();
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public static void valArray() {
-		val = new String[length];
-		Path file = Paths.get(path);
-
-		if (Files.exists(file) && Files.isReadable(file)) {
-
-			try {
-				BufferedReader reader = Files.newBufferedReader(file, Charset.defaultCharset());
-				String pub = "public sta";
-				String line;
-				String sub;
-				int q = 0;
-				while ((line = reader.readLine()) != null) {
-					if (!line.isEmpty() && line.length() > 8 && (line.substring(0, 9)).equals(pub)) {
 						sub = StringU.val(line);
 						val[q] = sub;
 						q++;
@@ -100,6 +98,7 @@ public class GUI extends JFrame {
 			}
 		}
 	}
+
 
 	public GUI() {
 
@@ -117,7 +116,7 @@ public class GUI extends JFrame {
 		JButton btnUncount = new JButton("Uncount");
 		cp.add(btnUncount);
 
-		Panel panelButtons = new Panel(new GridLayout(length, 1));
+		Panel panelButtons = new Panel(new GridLayout(0, 2));
 		textField = new JTextField[length];
 		for (int n = 0; n < length; n++) {
 			panelButtons.add(new JLabel(var[n]));
@@ -127,19 +126,23 @@ public class GUI extends JFrame {
 		}
 		JButton save = new JButton("save");
 		panelButtons.add(save);
-
-		/*
-		 * save.addActionListener(new ActionListener(){
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e){ String add =
-		 * ""; for (int k = 1; k < 10; k++){ toppings[k] =
-		 * textField[k].getText();
-		 * 
-		 * } clearFile(toppings);
-		 * 
-		 * 
-		 * } });
-		 */
+		
+		save.addActionListener(new ActionListener(){
+	    	 
+	    	  @Override
+	    	  public void actionPerformed(ActionEvent e){
+	    		  String[] val1 = new String[length];
+	    		  for (int k = 0; k < length; k++){
+		    			 val1[k] = textField[k].getText();
+		    			 
+		    		  }
+		    		  rewrite(var, val1);
+	    		  
+	    	  }
+	      });
+		
+	
+		
 
 		setLayout(new BorderLayout()); // "this" Frame sets to BorderLayout
 		// add(panelDisplay, BorderLayout.NORTH);
@@ -147,18 +150,13 @@ public class GUI extends JFrame {
 		// Allocate an anonymous instance of an anonymous inner class that
 		// implements ActionListener as ActionEvent listener
 
-		/*
-		 * tfCount.addActionListener(new ActionListener(){ public void
-		 * actionPerformed(ActionEvent e){ String textFieldValue =
-		 * tfCount.getText(); // .... do some operation on value ... count =
-		 * Integer.parseInt(textFieldValue); tfCount.setText(count + ""); } });
-		 */
+		
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit program if
 														// close-window button
 														// clicked
-		setTitle("test stuff"); // "this" JFrame sets title
-		setSize(500, 500); // "this" JFrame sets initial size
+		setTitle("Configuration"); // "this" JFrame sets title
+		setSize(800, 1000); // "this" JFrame sets initial size
 		setVisible(true); // "this" JFrame shows
 
 	}
@@ -166,7 +164,6 @@ public class GUI extends JFrame {
 	public static void main(String[] args) {
 		System.out.println(length);
 		getLength();
-		valArray();
 		varArray();
 		System.out.println(length);
 		SwingUtilities.invokeLater(new Runnable() {

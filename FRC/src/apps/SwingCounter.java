@@ -20,8 +20,8 @@ import javax.swing.*;
 
 public class SwingCounter extends JFrame{
 		private JTextField tfCount;  // Use Swing's JTextField instead of AWT's TextField
-			private static String path = "C:\\Users\\lbeal3008\\Desktop\\test.txt";
-//			private static String path = "";
+			private static final String path = "C:\\Users\\lbeal3008\\Desktop\\test1.java";
+//			private static final String path = "";
 		   private int count = 4;
 		   private String Coun = count + "";
 		   private String name = "Counter";
@@ -37,14 +37,14 @@ public class SwingCounter extends JFrame{
 				  if(Files.exists(file) && Files.isWritable(file)) {
 					  
 				      try {
-				          // File reader
+				          // File writer
 				          BufferedWriter Writer = Files.newBufferedWriter(file, Charset.defaultCharset());
 				          
 				         for (int l = 1; l < 10; l++){
 				          Writer.write(m[l]);
 				          Writer.newLine();
 				         }
-				          // read each line
+				         
 				          
 				          Writer.close();
 				      } catch (Exception e) {
