@@ -7,6 +7,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
 import javax.swing.*;
 
 public class GUI extends JFrame {
@@ -17,6 +18,9 @@ public class GUI extends JFrame {
 	private static String[] val;
 	private static int length;
 	private JTextField[] textField;
+	private JTextField UpathT;
+	
+	
 	
 	public static void rewrite(String[] m, String[] y){
 		   Path file = Paths.get(path);
@@ -100,10 +104,25 @@ public class GUI extends JFrame {
 	}
 
 
-	public GUI() {
+	public GUI(int a) {
 
 		// Retrieve the content-pane of the top-level container JFrame
 		// All operations done on the content-pane
+		if (a == 1){
+			Container cp = getContentPane();
+			cp.setLayout(new FlowLayout());
+			cp.add(new JLabel("name"));
+			Conf = new JTextField("count", 10);
+			Conf.setEditable(true);
+			cp.add(Conf);
+			
+			Panel text = new Panel(new FlowLayout());
+			UpathT = new JTextField("", 10);
+			text.add(new JLabel("path"));
+			text.add(UpathT);
+		}
+		
+		if (a == 2){
 		Container cp = getContentPane();
 		cp.setLayout(new FlowLayout());
 		cp.add(new JLabel("name"));
@@ -111,12 +130,7 @@ public class GUI extends JFrame {
 		Conf.setEditable(true);
 		cp.add(Conf);
 
-		JButton btnCount = new JButton("Count");
-		cp.add(btnCount);
-		JButton btnUncount = new JButton("Uncount");
-		cp.add(btnUncount);
-
-		Panel panelButtons = new Panel(new GridLayout(0, 2));
+		Panel panelButtons = new Panel(new GridLayout(0, 6));
 		textField = new JTextField[length];
 		for (int n = 0; n < length; n++) {
 			panelButtons.add(new JLabel(var[n]));
@@ -156,12 +170,14 @@ public class GUI extends JFrame {
 														// close-window button
 														// clicked
 		setTitle("Configuration"); // "this" JFrame sets title
-		setSize(800, 1000); // "this" JFrame sets initial size
+		setSize(1100, 500); // "this" JFrame sets initial size
 		setVisible(true); // "this" JFrame shows
 
+		}
 	}
 
 	public static void main(String[] args) {
+		new GUI(1);
 		System.out.println(length);
 		getLength();
 		varArray();
@@ -169,7 +185,8 @@ public class GUI extends JFrame {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new GUI(); // Let the constructor do the job
+			//	new GUI(1);
+				new GUI(2); // Let the constructor do the job
 			}
 		});
 
